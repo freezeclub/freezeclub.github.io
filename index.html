@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>freeze &amp; talk · Der Podcast</title>
+<meta name="description" content="freeze & talk – der Podcast über ganzheitliche Gesundheit aus dem freezeclub Balingen. Neue Folgen auf YouTube & Spotify." />
+<meta name="theme-color" content="#040d24" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="format-detection" content="telephone=no" />
+
+<!-- ============================================================= -->
+<!--  TEILEN-VORSCHAU (Instagram / WhatsApp / Facebook ...)         -->
+<!--  WICHTIG: og:image & og:url nach dem Hochladen auf die         -->
+<!--  ECHTE absolute Domain umstellen, z.B.                          -->
+<!--  https://link.freezeclub.de/assets/og-image.png                -->
+<!-- ============================================================= -->
+<meta property="og:title" content="freeze & talk – Der Podcast" />
+<meta property="og:description" content="Der Podcast über ganzheitliche Gesundheit aus dem freezeclub Balingen. Neue Folgen auf YouTube & Spotify." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="freeze & talk – Der Podcast" />
+<meta name="twitter:description" content="Der Podcast aus dem freezeclub Balingen. Neue Folgen auf YouTube & Spotify." />
+<meta name="twitter:image" content="assets/og-image.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --navy:#082148;
+    --navy-deep:#040d24;
+    --card:rgba(212,237,252,.065);
+    --card-hover:rgba(212,237,252,.10);
+    --ice:#EAF6FF;
+    --ice-dim:rgba(234,246,255,.60);
+    --ice-faint:rgba(234,246,255,.38);
+    --line:rgba(212,237,252,.13);
+    --accent:#D4EDFC;
+    --yt:#FF0033;
+    --sp:#1DB954;
+    --gap:14px;
+    --section:52px;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Poppins',system-ui,sans-serif;font-weight:400;
+    color:var(--ice);background:var(--navy-deep);
+    min-height:100vh;min-height:100dvh;line-height:1.55;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility;
+  }
+  a{-webkit-tap-highlight-color:transparent}
+
+  /* atmosphere (static, cheap) */
+  .sky{position:fixed;inset:0;z-index:-3;background:
+      radial-gradient(900px 520px at 50% -14%, #17457f 0%, rgba(23,69,127,0) 60%),
+      linear-gradient(180deg,#0b2549 0%,#081d3e 46%,#040d24 100%);}
+  .aurora{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.9;background:
+      radial-gradient(46% 34% at 24% 20%, rgba(120,200,255,.16), transparent 72%),
+      radial-gradient(42% 30% at 80% 26%, rgba(150,230,220,.11), transparent 72%),
+      radial-gradient(48% 34% at 60% 10%, rgba(180,210,255,.12), transparent 72%);}
+  .grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  .wrap{max-width:468px;margin:0 auto;position:relative;
+    padding:calc(52px + env(safe-area-inset-top)) max(22px, env(safe-area-inset-right))
+            calc(76px + env(safe-area-inset-bottom)) max(22px, env(safe-area-inset-left));}
+
+  /* entrance */
+  .rise{opacity:0;transform:translateY(18px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .d1{animation-delay:.05s}.d2{animation-delay:.14s}.d3{animation-delay:.23s}
+  .d4{animation-delay:.32s}.d5{animation-delay:.41s}.d6{animation-delay:.5s}.d7{animation-delay:.6s}
+  @media (prefers-reduced-motion:reduce){.rise{opacity:1;transform:none;animation:none}}
+
+  .frost{background:var(--card);border:1px solid var(--line);
+    box-shadow:inset 0 1px 0 rgba(234,246,255,.14), 0 18px 44px -26px rgba(0,0,0,.6);}
+
+  /* header */
+  header{text-align:center;margin-bottom:14px}
+  .logo{width:170px;max-width:54%;height:auto;filter:drop-shadow(0 8px 28px rgba(0,0,0,.5))}
+  .ptitle{margin-top:18px;font-size:27px;font-weight:700;letter-spacing:-.01em;color:var(--ice)}
+  .tag{margin-top:8px;font-size:13px;letter-spacing:.01em;color:var(--ice-dim);font-weight:400}
+
+  /* section label */
+  .eyebrow{display:flex;align-items:center;gap:12px;font-size:13px;letter-spacing:.01em;
+    color:var(--ice-dim);font-weight:600;margin:var(--section) 2px 18px}
+  .eyebrow .flake{width:13px;height:13px;color:var(--accent);opacity:.6;flex:none}
+  .eyebrow .flake svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round}
+  .eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+  /* hero */
+  .hero{border-radius:22px;overflow:hidden}
+  .herohead{display:flex;align-items:center;justify-content:space-between;padding:15px 18px 14px}
+  .hh-new{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;
+    letter-spacing:.01em;color:var(--ice)}
+  .hh-date{font-size:12.5px;font-weight:500;letter-spacing:.01em;color:var(--ice-faint);
+    font-variant-numeric:tabular-nums}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--yt);
+    box-shadow:0 0 0 0 rgba(255,0,51,.6);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,0,51,.55)}
+    70%{box-shadow:0 0 0 8px rgba(255,0,51,0)}100%{box-shadow:0 0 0 0 rgba(255,0,51,0)}}
+  .video{display:block;position:relative;aspect-ratio:16/9;background:#03102a;cursor:pointer}
+  .video .thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+  .video:hover .thumb{transform:scale(1.045)}
+  .video .scrim{position:absolute;inset:0;background:linear-gradient(180deg,
+      rgba(4,13,36,.4) 0%, rgba(4,13,36,0) 28%, rgba(4,13,36,.12) 66%, rgba(4,13,36,.6) 100%)}
+  .video .frostedge{position:absolute;inset:0;pointer-events:none;
+    box-shadow:inset 0 0 60px rgba(180,220,255,.14), inset 0 0 0 1px rgba(212,237,252,.1)}
+  .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:70px;height:70px;border-radius:50%;background:rgba(234,246,255,.95);
+    display:grid;place-items:center;box-shadow:0 14px 40px rgba(0,0,0,.45);
+    transition:transform .22s ease,background .22s ease}
+  .play::after{content:"";position:absolute;inset:-8px;border-radius:50%;
+    border:1px solid rgba(234,246,255,.45);animation:ring 2.6s ease-out infinite}
+  @keyframes ring{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+  .video:hover .play{transform:translate(-50%,-50%) scale(1.08);background:#fff}
+  .play svg{width:26px;height:26px;fill:var(--navy);margin-left:3px}
+  @media (prefers-reduced-motion:reduce){.play::after{animation:none}}
+  .hero .meta{padding:17px 20px 20px;display:flex;align-items:center;gap:12px;border-top:1px solid var(--line)}
+  .hero .meta .l{flex:1;min-width:0}
+  .hero .show{font-size:12.5px;font-weight:500;letter-spacing:.01em;color:var(--ice-dim);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hero .title{font-size:15.5px;font-weight:600;margin-top:4px;line-height:1.35;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hero .ep{flex:none;font-size:12px;font-weight:700;color:var(--navy);
+    background:var(--accent);border-radius:11px;padding:9px 12px}
+
+  /* platform pair */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:var(--gap)}
+  .plat{display:flex;align-items:center;justify-content:center;gap:9px;padding:16px;border-radius:14px;
+    font-weight:600;font-size:14.5px;text-decoration:none;transition:transform .16s ease,filter .16s ease}
+  .plat svg{width:20px;height:20px;flex:none}
+  .plat.yt{background:#fff;color:#0f0f0f;box-shadow:0 12px 26px -14px rgba(255,255,255,.55)}
+  .plat.yt svg{fill:var(--yt)}
+  .plat.sp{background:var(--sp);color:#04220f;box-shadow:0 12px 26px -14px rgba(29,185,84,.75)}
+  .plat.sp svg{fill:#04220f}
+  .plat:hover{filter:brightness(1.04);transform:translateY(-2px)}
+  .plat:active{transform:translateY(0) scale(.98)}
+
+  /* episode list */
+  .eplist{display:flex;flex-direction:column;gap:var(--gap)}
+  .epcard{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;
+    border-radius:16px;padding:12px;text-decoration:none;color:var(--ice);
+    transition:transform .18s ease,border-color .18s ease,background .18s ease}
+  .epcard::before{content:"";position:absolute;top:0;left:-70%;width:55%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(234,246,255,.12),transparent);
+    transform:skewX(-16deg);transition:left .7s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+  .epcard:hover::before{left:135%}
+  .epcard:hover{transform:translateY(-2px);border-color:rgba(212,237,252,.3)}
+  .epcard:active{transform:scale(.99)}
+  .epcard .th{width:118px;flex:none;aspect-ratio:16/9;border-radius:10px;overflow:hidden;
+    position:relative;background:#03102a;z-index:1}
+  .epcard .th img{width:100%;height:100%;object-fit:cover}
+  .epcard .th .pl{position:absolute;inset:0;display:grid;place-items:center;
+    background:linear-gradient(180deg,rgba(4,13,36,.1),rgba(4,13,36,.45))}
+  .epcard .th .pl svg{width:16px;height:16px;fill:#fff;margin-left:2px;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+  .epcard .ei{flex:1;min-width:0;z-index:1}
+  .epcard .en{font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--accent)}
+  .epcard .et{font-weight:600;font-size:13.5px;line-height:1.3;margin:3px 0 3px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .epcard .eg{font-size:11.5px;color:var(--ice-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* link (CTA) */
+  .link{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;
+    border-radius:var(--radius);padding:18px;text-decoration:none;color:var(--ice);
+    transition:transform .18s ease,border-color .18s ease,background .18s ease}
+  .link::before{content:"";position:absolute;top:0;left:-70%;width:55%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(234,246,255,.14),transparent);
+    transform:skewX(-16deg);transition:left .7s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+  .link:hover::before{left:135%}
+  .link:hover{transform:translateY(-2px);border-color:rgba(212,237,252,.3)}
+  .link:active{transform:scale(.99)}
+  .link .ic{width:44px;height:44px;border-radius:13px;flex:none;display:grid;place-items:center;
+    background:rgba(212,237,252,.12);color:var(--accent);position:relative;z-index:1}
+  .link .ic svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .link .txt{flex:1;min-width:0;position:relative;z-index:1}
+  .link .txt b{display:block;font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .link .txt span{display:block;font-size:12.5px;color:var(--ice-dim);font-weight:400;margin-top:2px}
+  .link .arw{flex:none;color:var(--ice-faint);position:relative;z-index:1;transition:transform .18s ease,color .18s ease}
+  .link:hover .arw{transform:translateX(4px);color:var(--accent)}
+  .link .arw svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .link.primary{background:var(--accent);border:1px solid var(--accent);color:var(--navy);
+    box-shadow:0 18px 44px -20px rgba(212,237,252,.75)}
+  .link.primary .ic{background:var(--navy);color:var(--accent)}
+  .link.primary .txt span{color:rgba(8,33,72,.62)}
+  .link.primary .arw{color:rgba(8,33,72,.55)}
+  .link.primary::before{background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent)}
+  .link.primary:hover{background:#f1f9ff}
+  .link.primary:hover .arw{color:var(--navy)}
+
+  /* socials */
+  .socials{display:flex;justify-content:center;gap:16px;margin-top:var(--section)}
+  .soc{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:var(--ice);
+    text-decoration:none;transition:transform .18s ease,color .18s ease,border-color .18s ease,background .18s ease}
+  .soc:hover{background:var(--accent);color:var(--navy);transform:translateY(-3px);border-color:var(--accent)}
+  .soc svg{width:21px;height:21px;fill:currentColor}
+
+  footer{text-align:center;margin-top:40px}
+  footer .fl{font-size:12px}
+  footer a{color:var(--ice-dim);text-decoration:none;transition:color .16s ease}
+  footer a:hover{color:var(--ice)}
+  footer .sep{opacity:.35;margin:0 12px}
+  .disc{margin-top:16px;font-size:11px;color:var(--ice-faint);line-height:1.6}
+
+  /* about / context */
+  .about{border-radius:var(--radius);padding:20px}
+  .about p{font-size:14px;line-height:1.65;color:var(--ice-dim)}
+  .about p b{color:var(--ice);font-weight:600}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+  .tags span{font-size:11.5px;font-weight:500;color:var(--accent);
+    background:rgba(212,237,252,.1);border:1px solid var(--line);border-radius:100px;padding:6px 12px}
+
+  /* share button + toast */
+  .share{position:absolute;top:calc(env(safe-area-inset-top) + 16px);right:max(20px,env(safe-area-inset-right));
+    width:42px;height:42px;border-radius:50%;display:grid;place-items:center;z-index:5;cursor:pointer;
+    background:rgba(212,237,252,.08);border:1px solid var(--line);color:var(--ice);
+    transition:background .16s ease,transform .16s ease,color .16s ease}
+  .share:hover{background:var(--accent);color:var(--navy);transform:translateY(-1px)}
+  .share:active{transform:scale(.94)}
+  .share svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));
+    transform:translateX(-50%) translateY(18px);background:var(--accent);color:var(--navy);
+    font-size:13px;font-weight:600;padding:11px 18px;border-radius:100px;
+    box-shadow:0 14px 34px rgba(0,0,0,.45);opacity:0;pointer-events:none;
+    transition:opacity .25s ease,transform .25s ease;z-index:30;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:360px){
+    .pair{grid-template-columns:1fr}
+    .epcard .th{width:96px}
+  }
+</style>
+</head>
+<body>
+<div class="sky"></div>
+<div class="aurora"></div>
+<div class="grain"></div>
+
+<main class="wrap">
+
+  <button class="share rise d1" id="shareBtn" type="button" aria-label="Podcast teilen">
+    <svg viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>
+  </button>
+
+  <header class="rise d1">
+    <img class="logo" src="assets/logo-white.png" alt="freezeclub" />
+    <h1 class="ptitle">freeze &amp; talk</h1>
+    <p class="tag">Der Podcast über ganzheitliche Gesundheit · Balingen</p>
+  </header>
+
+  <!-- ===== Neueste Folge ===== -->
+  <div class="eyebrow rise d2">
+    <span class="flake"><svg viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6 4 18"/></svg></span>
+    Jetzt reinhören
+  </div>
+
+  <section class="hero frost rise d2">
+    <div class="herohead">
+      <span class="hh-new"><span class="dot"></span> Neueste Folge</span>
+      <span class="hh-date">17. Juli 2026</span>
+    </div>
+    <a class="video" href="https://www.youtube.com/watch?v=ZxAWQvwhKac" target="_blank" rel="noopener" aria-label="freeze & talk #4 auf YouTube ansehen">
+      <img class="thumb" alt="freeze & talk #4 mit Muhammed Atak"
+           src="https://i.ytimg.com/vi/ZxAWQvwhKac/maxresdefault.jpg"
+           onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ZxAWQvwhKac/hqdefault.jpg'" />
+      <div class="scrim"></div>
+      <div class="frostedge"></div>
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+    </a>
+    <div class="meta">
+      <div class="l">
+        <div class="show">mit Muhammed Atak · Atak Coaching</div>
+        <div class="title">Krafttraining ist Körperpflege</div>
+      </div>
+      <span class="ep">#4</span>
+    </div>
+  </section>
+
+  <!-- ===== Plattformen ===== -->
+  <div class="pair rise d3">
+    <a class="plat yt" href="https://www.youtube.com/channel/UCOYIpV_B4ECS51xwBbnH1tQ" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>
+      YouTube
+    </a>
+    <a class="plat sp" href="https://open.spotify.com/show/033B4fVBdOhflLIU56cQeX" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2.1-10.4-1.16a.75.75 0 1 1-.33-1.46c4.5-1 8.4-.55 11.5 1.37.35.22.46.68.24 1Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.2-1.97-8.1-2.54-11.9-1.4a.94.94 0 1 1-.54-1.8c4.3-1.3 9.7-.66 13.4 1.6.44.27.58.85.31 1.29Zm.13-3.4C15.36 8.35 8.9 8.12 5.2 9.24a1.12 1.12 0 1 1-.65-2.15c4.25-1.29 11.4-1.04 15.9 1.63a1.12 1.12 0 1 1-1.15 1.93Z"/></svg>
+      Spotify
+    </a>
+  </div>
+
+  <!-- ===== Über den Podcast ===== -->
+  <div class="eyebrow rise d3">
+    <span class="flake"><svg viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6 4 18"/></svg></span>
+    Über den Podcast
+  </div>
+  <div class="about frost rise d3">
+    <p><b>freeze &amp; talk</b> ist der Podcast über ganzheitliche Gesundheit aus dem freezeclub Balingen. Jede Woche ein neuer Gast über das, was wirklich zählt: Wohlbefinden, Ernährung, Regeneration und mentale Gesundheit — ehrliche Gespräche, echte Menschen.</p>
+    <div class="tags">
+      <span>Gesundheit</span>
+      <span>Mentale Gesundheit</span>
+      <span>Regeneration</span>
+      <span>Ernährung</span>
+      <span>Wöchentlich neu</span>
+    </div>
+  </div>
+
+  <!-- ===== Weitere Folgen ===== -->
+  <div class="eyebrow rise d4">
+    <span class="flake"><svg viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6 4 18"/></svg></span>
+    Weitere Folgen
+  </div>
+  <div class="eplist">
+
+    <a class="epcard frost rise d4" href="https://www.youtube.com/watch?v=G0nvAOTxEHY" target="_blank" rel="noopener">
+      <span class="th">
+        <img src="https://i.ytimg.com/vi/G0nvAOTxEHY/mqdefault.jpg" alt="" loading="lazy" />
+        <span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+      </span>
+      <span class="ei">
+        <span class="en">Folge #3</span>
+        <span class="et">Massage ist keine Prävention</span>
+        <span class="eg">mit Thomas Pfeffer · FORTSCHRITT</span>
+      </span>
+    </a>
+
+    <a class="epcard frost rise d5" href="https://www.youtube.com/watch?v=up2-tmo8rxQ" target="_blank" rel="noopener">
+      <span class="th">
+        <img src="https://i.ytimg.com/vi/up2-tmo8rxQ/mqdefault.jpg" alt="" loading="lazy" />
+        <span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+      </span>
+      <span class="ei">
+        <span class="en">Folge #2</span>
+        <span class="et">Ab 25 baut dein Körper Muskeln ab</span>
+        <span class="eg">mit Patrick Sickinger · AXIS Balingen</span>
+      </span>
+    </a>
+
+    <a class="epcard frost rise d5" href="https://www.youtube.com/watch?v=NKciNeoUS5U" target="_blank" rel="noopener">
+      <span class="th">
+        <img src="https://i.ytimg.com/vi/NKciNeoUS5U/mqdefault.jpg" alt="" loading="lazy" />
+        <span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+      </span>
+      <span class="ei">
+        <span class="en">Folge #1</span>
+        <span class="et">Leben mit Depression – Elkes Geschichte</span>
+        <span class="eg">Selbsthilfegruppe Balingen</span>
+      </span>
+    </a>
+
+    <a class="link frost rise d6" href="https://www.freezeclub.de/freeze-and-talk" target="_blank" rel="noopener" style="margin-top:2px">
+      <span class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
+      <span class="txt"><b>Alle Folgen &amp; Infos</b><span>Zur freeze &amp; talk Übersicht</span></span>
+      <span class="arw"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+  </div>
+
+  <!-- ===== Mitmachen & Kontakt ===== -->
+  <div class="eyebrow rise d6">
+    <span class="flake"><svg viewBox="0 0 24 24"><path d="M12 2v20M4 6l16 12M20 6 4 18"/></svg></span>
+    Mitmachen &amp; Kontakt
+  </div>
+  <div class="links">
+    <a class="link frost rise d6" href="https://wa.me/4915235801273?text=Hallo%20freeze%20%26%20talk%20Team!%20Ich%20habe%20einen%20Themen-%20oder%20Gastvorschlag%3A%20" target="_blank" rel="noopener">
+      <span class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8.5 22h7"/></svg></span>
+      <span class="txt"><b>Gast werden oder Thema vorschlagen</b><span>Schreib uns per WhatsApp</span></span>
+      <span class="arw"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="link primary rise d7" href="https://www.freezeclub.de/contact" target="_blank" rel="noopener">
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+      <span class="txt"><b>Termin im freezeclub</b><span>Kältekammer &amp; Anwendungen in Balingen</span></span>
+      <span class="arw"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </div>
+
+  <!-- ===== Socials ===== -->
+  <div class="socials rise d7">
+    <a class="soc frost" href="https://www.instagram.com/freezeclub.de/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.86s0 3.6-.07 4.86c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.9.07s-3.6 0-4.86-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.86c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.15 0-3.5 0-4.75.07-.9.04-1.38.19-1.7.31-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.12.32-.27.8-.31 1.7C3.4 8.85 3.4 9.2 3.4 12s0 3.15.07 4.75c.04.9.19 1.38.31 1.7.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.12.8.27 1.7.31 1.25.07 1.6.07 4.75.07s3.5 0 4.75-.07c.9-.04 1.38-.19 1.7-.31.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.12-.32.27-.8.31-1.7.07-1.25.07-1.6.07-4.75s0-3.5-.07-4.75c-.04-.9-.19-1.38-.31-1.7a2.9 2.9 0 0 0-.69-1.06 2.9 2.9 0 0 0-1.06-.69c-.32-.12-.8-.27-1.7-.31C15.5 4 15.15 4 12 4Zm0 3.06A4.94 4.94 0 1 1 12 16.94 4.94 4.94 0 0 1 12 7.06Zm0 1.8A3.14 3.14 0 1 0 12 15.14 3.14 3.14 0 0 0 12 8.86Zm5.14-3.24a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Z"/></svg>
+    </a>
+    <a class="soc frost" href="https://www.youtube.com/channel/UCOYIpV_B4ECS51xwBbnH1tQ" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>
+    </a>
+    <a class="soc frost" href="https://www.facebook.com/p/Freezeclub-100090924436332/" target="_blank" rel="noopener" aria-label="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.6 4.5-4.6 1.3 0 2.6.23 2.6.23v2.9h-1.5c-1.5 0-1.9.9-1.9 1.8V12h3.3l-.53 3.5h-2.8v8.4A12 12 0 0 0 24 12Z"/></svg>
+    </a>
+    <a class="soc frost" href="https://wa.me/4915235801273" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24"><path d="M.06 24l1.7-6.2A11.9 11.9 0 1 1 12 24a11.9 11.9 0 0 1-5.7-1.45L.06 24ZM6.6 20l.36.22a9.9 9.9 0 1 0-3.35-3.34l.23.37-1 3.66 3.76-.9ZM17.4 14.3c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06a8.1 8.1 0 0 1-2.4-1.48 9 9 0 0 1-1.66-2.06c-.17-.3 0-.46.13-.6.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.5.58.19 1.1.16 1.52.1.46-.07 1.43-.58 1.63-1.15.2-.56.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28Z"/></svg>
+    </a>
+  </div>
+
+  <footer class="rise d7">
+    <div class="fl">
+      <a href="https://www.freezeclub.de/impressum" target="_blank" rel="noopener">Impressum</a>
+      <span class="sep">·</span>
+      <a href="https://www.freezeclub.de/datenschutz" target="_blank" rel="noopener">Datenschutz</a>
+    </div>
+    <p class="disc">freeze &amp; talk – ein Podcast des freezeclub Balingen.</p>
+  </footer>
+
+</main>
+
+<script>
+  /* ---- Teilen (Web Share API, Fallback: Link kopieren) ---- */
+  (function(){
+    var b = document.getElementById('shareBtn');
+    if(!b) return;
+    var t = document.createElement('div'); t.className = 'toast'; document.body.appendChild(t);
+    function toast(msg){ t.textContent = msg; t.classList.add('show');
+      clearTimeout(t._h); t._h = setTimeout(function(){ t.classList.remove('show'); }, 2200); }
+    b.addEventListener('click', function(){
+      var data = {
+        title: 'freeze & talk – Der Podcast',
+        text: 'Der Podcast über ganzheitliche Gesundheit aus dem freezeclub Balingen',
+        url: location.href
+      };
+      if(navigator.share){ navigator.share(data).catch(function(){}); }
+      else if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(location.href)
+          .then(function(){ toast('Link kopiert ✓'); })
+          .catch(function(){ toast(location.href); });
+      } else { toast(location.href); }
+    });
+  })();
+</script>
+</body>
+</html>
