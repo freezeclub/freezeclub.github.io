@@ -5,7 +5,7 @@ name: freeze & talk – neue Folge prüfen
 on:
   schedule:
     - cron: "0 13 * * *"   # taeglich 13:00 UTC = 14-15 Uhr DE
-    - cron: "0 18 * * 5"   # zusaetzlich Freitagabend 18:00 UTC = 19-20 Uhr DE
+    - cron: "0 18 * * 2"   # zusaetzlich Dienstagabend 18:00 UTC = 19-20 Uhr DE
   workflow_dispatch: {}
 
 permissions:
