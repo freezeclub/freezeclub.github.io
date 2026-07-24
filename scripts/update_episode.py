@@ -113,37 +113,91 @@ def get_transcript(vid):
         log("Transkript nicht verfügbar:", e)
         return None
 
-def pick_quote(transcript, ep):
-    key = os.environ.get("ANTHROPIC_API_KEY")
-    if not key or not transcript:
-        return None
-    prompt = (
+def _prompt(transcript, ep):
+    return (
         "Du bist Redakteur für den deutschen Gesundheits-Podcast 'freeze & talk'. "
         "Wähle aus dem folgenden Transkript EIN einzelnes, starkes, in sich verständliches Zitat "
         f"des Gastes ({ep['guest']}), das die Folge '{ep['title']}' gut repräsentiert. "
         "Regeln: nur echte Wörter aus dem Transkript, nichts erfinden; ein vollständiger Satz, "
-        "prägnant (ca. 60–160 Zeichen); Füllwörter (ähm, halt, so) entfernen und Groß-/Kleinschreibung "
-        "und Satzzeichen korrigieren, ohne die Aussage zu verändern. "
-        "Antworte AUSSCHLIESSLICH mit JSON: {\"quote\":\"...\"} .\n\nTRANSKRIPT:\n" + transcript[:14000]
+        "prägnant (ca. 60–160 Zeichen); Füllwörter (ähm, halt, sozusagen) entfernen und Groß-/"
+        "Kleinschreibung und Satzzeichen korrigieren, ohne die Aussage zu verändern. "
+        "Antworte AUSSCHLIESSLICH mit JSON: {\"quote\":\"...\"}.\n\nTRANSKRIPT:\n" + transcript[:14000]
     )
-    body = json.dumps({
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 300,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode()
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages", data=body,
-        headers={"content-type": "application/json", "x-api-key": key,
-                 "anthropic-version": "2023-06-01"})
+
+def _extract_json_quote(text):
+    m = re.search(r"\{.*\}", text, re.S)
+    if not m:
+        return None
+    q = json.loads(m.group(0)).get("quote", "").strip().strip('"„“”')
+    return q or None
+
+def _anthropic_quote(transcript, ep):
+    key = os.environ["ANTHROPIC_API_KEY"]
+    body = json.dumps({"model": "claude-haiku-4-5-20251001", "max_tokens": 300,
+                       "messages": [{"role": "user", "content": _prompt(transcript, ep)}]}).encode()
+    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body,
+        headers={"content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01"})
     try:
         resp = json.loads(urllib.request.urlopen(req, timeout=60).read())
-        text = "".join(b.get("text", "") for b in resp.get("content", []))
-        m = re.search(r"\{.*\}", text, re.S)
-        q = json.loads(m.group(0))["quote"].strip().strip('"„“”')
-        return q or None
+        return _extract_json_quote("".join(b.get("text", "") for b in resp.get("content", [])))
     except Exception as e:
-        log("Zitat-API Fehler:", e)
+        log("Anthropic-Zitat Fehler:", e); return None
+
+def _gemini_quote(transcript, ep):
+    key = os.environ["GEMINI_API_KEY"]
+    model = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+    body = json.dumps({"contents": [{"parts": [{"text": _prompt(transcript, ep)}]}]}).encode()
+    req = urllib.request.Request(url, data=body, headers={"content-type": "application/json"})
+    try:
+        resp = json.loads(urllib.request.urlopen(req, timeout=60).read())
+        text = resp["candidates"][0]["content"]["parts"][0]["text"]
+        return _extract_json_quote(text)
+    except Exception as e:
+        log("Gemini-Zitat Fehler:", e); return None
+
+FILLERS = re.compile(r"\b([Ää]hm?|halt|sozusagen|quasi|gell|ne)\b[,]?\s*", re.I)
+
+def heuristic_quote(transcript):
+    """Kostenlose Auswahl ganz ohne KI: bester klarer Aussagesatz aus dem Transkript."""
+    t = re.sub(r"\[[^\]]*\]", " ", transcript)       # [gelächter] u.ä. entfernen
+    t = re.sub(r"\s+", " ", t)
+    KW = ["training", "gesünd", "gesund", "körper", "ernährung", "regeneration", "stress",
+          "schlaf", "bewegung", "kraft", "mental", "alltag", "respekt", "ziel", "muskel",
+          "verletzung", "balance", "energie", "erholung"]
+    best, best_score = None, 2   # Mindest-Score – sonst lieber kein Zitat
+    for s in re.split(r"(?<=[.!?])\s+", t):
+        s = s.strip()
+        if not (60 <= len(s) <= 165) or s.endswith("?"):
+            continue
+        low = s.lower()
+        if any(g in low for g in ["freent", "frezen", "blabla", "carlos", "insta"]):
+            continue
+        if re.match(r"^(Also|Ja|Aber|Genau|Und|Weil|Ähm|Ne|So )\b", s):
+            continue
+        score = sum(2 for kw in KW if kw in low)
+        if re.search(r"\b(ist|kann|sollte|muss|bedeutet|geht darum)\b", low):
+            score += 1
+        if score > best_score:
+            best, best_score = s, score
+    if not best:
         return None
+    best = FILLERS.sub("", best)
+    best = re.sub(r"\s+([,.!?])", r"\1", re.sub(r"\s+", " ", best)).strip()
+    return best[0].upper() + best[1:]
+
+def pick_quote(transcript, ep):
+    if not transcript:
+        return None
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        q = _anthropic_quote(transcript, ep)
+        if q:
+            return q
+    if os.environ.get("GEMINI_API_KEY"):
+        q = _gemini_quote(transcript, ep)
+        if q:
+            return q
+    return heuristic_quote(transcript)  # gratis, ohne Key
 
 def sub1(pattern, repl, text, flags=0):
     new, n = re.subn(pattern, repl, text, count=1, flags=flags)
@@ -220,7 +274,7 @@ def main():
         doc = doc[:start] + new_block + doc[end:]
 
     # --- Zitat (optional, via Claude) ---
-    quote_note = "Zitat NICHT aktualisiert (kein ANTHROPIC_API_KEY oder kein Transkript) – bitte manuell prüfen."
+    quote_note = "Zitat NICHT aktualisiert (kein Transkript verfügbar) – ggf. manuell setzen."
     quote = pick_quote(get_transcript(nid), p)
     if quote:
         doc = sub1(r'(<blockquote class="quote[^>]*>[\s\S]*?<p>)[\s\S]*?(</p>)',
