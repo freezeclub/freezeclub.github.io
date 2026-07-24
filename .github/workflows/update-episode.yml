@@ -4,7 +4,7 @@ name: freeze & talk – neue Folge prüfen
 # Freitag 14:00 UTC (~15–16 Uhr DE, je nach Sommer-/Winterzeit).
 on:
   schedule:
-    - cron: "0 14 * * 5"   # Freitag 14:00 UTC = 15-16 Uhr DE (Nachmittag)
+    - cron: "0 13 * * 5"   # Freitag 13:00 UTC = 14-15 Uhr DE (Nachmittag)
     - cron: "0 18 * * 5"   # Freitag 18:00 UTC = 19-20 Uhr DE (Abend)
     - cron: "0 10 * * 6"   # Samstag 10:00 UTC = 11-12 Uhr DE
   workflow_dispatch: {}
