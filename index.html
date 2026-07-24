@@ -165,7 +165,8 @@
   .epcard .en{font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--accent)}
   .epcard .et{font-weight:600;font-size:13.5px;line-height:1.3;margin:3px 0 3px;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .epcard .eg{font-size:11.5px;color:var(--ice-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .epcard .eg{font-size:11.5px;color:var(--ice-dim);line-height:1.35;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
   /* link (CTA) */
   .link{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;
@@ -216,6 +217,16 @@
   .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
   .tags span{font-size:11.5px;font-weight:500;color:var(--accent);
     background:rgba(212,237,252,.1);border:1px solid var(--line);border-radius:100px;padding:6px 12px}
+
+  /* quote */
+  .quote{margin-top:38px;border-radius:var(--radius);padding:22px 22px 20px;position:relative}
+  .quote .mark{position:absolute;top:8px;left:18px;font-family:Georgia,'Times New Roman',serif;
+    font-size:56px;line-height:1;color:var(--accent);opacity:.35;pointer-events:none}
+  .quote p{position:relative;font-size:15.5px;line-height:1.55;font-weight:500;color:var(--ice);
+    font-style:italic;padding-left:24px}
+  .quote cite{display:flex;align-items:center;gap:8px;margin-top:14px;padding-left:24px;
+    font-size:12.5px;font-style:normal;color:var(--ice-dim);font-weight:500}
+  .quote cite::before{content:"";width:18px;height:1px;background:var(--accent);opacity:.6}
 
   /* share button + toast */
   .share{position:absolute;top:calc(env(safe-area-inset-top) + 16px);right:max(20px,env(safe-area-inset-right));
@@ -294,6 +305,13 @@
       Spotify
     </a>
   </div>
+
+  <!-- ===== Zitat aus der Folge ===== -->
+  <blockquote class="quote frost rise d3">
+    <span class="mark" aria-hidden="true">&bdquo;</span>
+    <p>Kontrolliertes Krafttraining ist das Gesündeste, was du machen kannst &ndash; um gleichzeitig sportlicher zu werden.</p>
+    <cite>Muhammed Atak &middot; Folge #4</cite>
+  </blockquote>
 
   <!-- ===== Über den Podcast ===== -->
   <div class="eyebrow rise d3">
