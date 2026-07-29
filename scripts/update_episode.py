@@ -205,6 +205,23 @@ def sub1(pattern, repl, text, flags=0):
         raise RuntimeError(f"Pattern nicht gefunden/eindeutig: {pattern[:60]}")
     return new
 
+def set_quote(doc, quote, guest, num):
+    doc = sub1(r'(<blockquote class="quote[^>]*>[\s\S]*?<p>)[\s\S]*?(</p>)',
+               lambda mm: mm.group(1) + esc(quote) + mm.group(2), doc)
+    attrib = esc((f"{guest} · " if guest else "") + f"Folge #{num}")
+    doc = sub1(r'(<blockquote class="quote[^>]*>[\s\S]*?<cite>)[\s\S]*?(</cite>)',
+               lambda mm: mm.group(1) + attrib + mm.group(2), doc)
+    return doc
+
+def finalize(doc, nid, msg):
+    if not (doc.strip().startswith("<!DOCTYPE") and nid in doc):
+        raise RuntimeError("Ergebnis sieht ungültig aus – abgebrochen.")
+    if os.environ.get("DRY_RUN") == "1":
+        open(INDEX + ".preview", "w", encoding="utf-8").write(doc)
+        log("[DRY_RUN]", msg); gh_output(changed="true"); return
+    open(INDEX, "w", encoding="utf-8").write(doc)
+    log(msg); gh_output(changed="true", commit_msg=msg)
+
 def main():
     ep = newest_episode()
     if not ep:
@@ -218,7 +235,20 @@ def main():
     log("Aktuelle Hero-ID:", current_id)
 
     if current_id == ep["id"]:
-        log(f"Keine neue Folge – aktuell ist weiterhin #{p['num']}."); set_output(False); return
+        # Keine neue Folge – aber evtl. Zitat nachziehen, falls es beim ersten
+        # Lauf noch kein Transkript gab und es jetzt verfügbar ist.
+        cm = re.search(r'<cite>[\s\S]*?Folge\s*#?(\d+)\s*</cite>', doc)
+        cite_num = cm.group(1) if cm else None
+        if cite_num != p["num"]:
+            q = pick_quote(get_transcript(current_id), p)
+            if q:
+                doc = set_quote(doc, q, p["guest"], p["num"])
+                finalize(doc, current_id, f"Zitat nachgezogen für Folge #{p['num']}")
+                return
+            log(f"Keine neue Folge; Zitat für #{p['num']} noch nicht verfügbar (Transkript fehlt).")
+            set_output(False); return
+        log(f"Keine neue Folge – aktuell ist weiterhin #{p['num']}, Zitat aktuell.")
+        set_output(False); return
 
     # --- alte Hero-Daten sichern (für die Folgen-Liste) ---
     old_id = re.search(r'<a class="video" href="https://www\.youtube\.com/watch\?v=([\w-]+)"', doc).group(1)
@@ -273,29 +303,15 @@ def main():
         start = doc.find(cards[0]); end = doc.find(cards[-1]) + len(cards[-1])
         doc = doc[:start] + new_block + doc[end:]
 
-    # --- Zitat (optional, via Claude) ---
-    quote_note = "Zitat NICHT aktualisiert (kein Transkript verfügbar) – ggf. manuell setzen."
+    # --- Zitat ---
     quote = pick_quote(get_transcript(nid), p)
     if quote:
-        doc = sub1(r'(<blockquote class="quote[^>]*>[\s\S]*?<p>)[\s\S]*?(</p>)',
-                   lambda mm: mm.group(1) + esc(quote) + mm.group(2), doc)
-        attrib = esc((f"{p['guest']} · " if p["guest"] else "") + f"Folge #{num}")
-        doc = sub1(r'(<blockquote class="quote[^>]*>[\s\S]*?<cite>)[\s\S]*?(</cite>)',
-                   lambda mm: mm.group(1) + attrib + mm.group(2), doc)
-        quote_note = f"Zitat aktualisiert: „{quote}“"
+        doc = set_quote(doc, quote, p["guest"], num)
+        log(f"Zitat gesetzt: „{quote}“")
+    else:
+        log("Zitat noch nicht gesetzt (Transkript fehlt) – wird an einem der nächsten Läufe automatisch nachgezogen.")
 
-    if not (doc.strip().startswith("<!DOCTYPE") and nid in doc):
-        raise RuntimeError("Ergebnis sieht ungültig aus – abgebrochen.")
-
-    if os.environ.get("DRY_RUN") == "1":
-        log("[DRY_RUN] würde schreiben. ", quote_note)
-        open(INDEX + ".preview", "w", encoding="utf-8").write(doc)
-        set_output(True); return
-
-    open(INDEX, "w", encoding="utf-8").write(doc)
-    log(f"index.html aktualisiert auf Folge #{num}: {p['title']}")
-    log(quote_note)
-    gh_output(changed="true", commit_msg=f"Neue Folge #{num}: {p['title']}")
+    finalize(doc, nid, f"Neue Folge #{num}: {p['title']}")
 
 if __name__ == "__main__":
     try:
