@@ -31,7 +31,7 @@ Podcasts freeze & talk. Zu den Anwendungen gehören:
 - 💨 **Lymphdrainage** – per Vakuumanwendung
 - 📐 **4D-BodyScan** – millimetergenauer Körper-Avatar
 
-📍 **freezeclub**, Friedrichstraße 58, 72336 Balingen · [freezeclub.de](https://www.freezeclub.de)
+📍 **freezeclub**, Wilhelmstraße 45, 72336 Balingen · [freezeclub.de](https://www.freezeclub.de)
 
 ## Häufige Fragen (FAQ)
 
@@ -48,7 +48,7 @@ Als Video auf **YouTube** und als Podcast auf **Spotify** – neue Folgen zuerst
 Um ganzheitliche Gesundheit: Wohlbefinden, Ernährung, Regeneration, mentale Gesundheit, Sport und Bewegung.
 
 **Wo ist der freezeclub?**
-Friedrichstraße 58, 72336 Balingen, Deutschland.
+Wilhelmstraße 45, 72336 Balingen, Deutschland.
 
 ---
 
